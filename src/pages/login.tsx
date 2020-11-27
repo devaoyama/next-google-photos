@@ -1,12 +1,26 @@
-import React from "react";
-import {useRouter} from "next/router";
+import React, { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import firebase, { auth } from "../utils/Firebase";
+import { AuthContext } from "../contexts/Auth";
 
 const Login = () => {
     const router = useRouter();
 
+    const { currentUser } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (currentUser) {
+            auth.getRedirectResult().then(async ({ credential }) => {
+                console.log(credential);
+                await router.push('/');
+            });
+        }
+    }, [currentUser]);
+
     const handleClick = async () => {
-        // ログイン処理
-        await router.push('/');
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata');
+        await auth.signInWithRedirect(provider);
     };
 
     return (

@@ -1,26 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../utils/Firebase";
+import { AuthContext } from "../contexts/Auth";
 
 const Auth = ({ children }) => {
     const router = useRouter();
 
-    const [user, loading, error] = useAuthState(auth);
+    const { currentUser } = useContext(AuthContext);
 
-    if (loading) {
-        return <div>Loading</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
-    }
-
-    if (user) {
+    if (currentUser) {
         return children;
     }
 
     router.push('/login');
+
+    return null;
 };
 
 export default Auth;
