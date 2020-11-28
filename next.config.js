@@ -1,4 +1,8 @@
 module.exports = {
+    images: {
+        domains: ['lh3.googleusercontent.com'],
+        deviceSizes: [320, 420, 768, 1024, 1200],
+    },
     env: {
         FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
         FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
